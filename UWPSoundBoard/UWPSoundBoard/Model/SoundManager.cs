@@ -1,31 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using static UWPSoundBoard.Model.Sound;
 
 namespace UWPSoundBoard.Model
 {
     public class SoundManager
     {
-        private List<Sound> getSounds()
+        private static List<Sound> getSounds()
         {
             var sounds = new List<Sound>();
-            sounds.Add(new Sound("Cow", Sound.SoundCategory.Animals));
-            sounds.Add(new Sound("Cat", Sound.SoundCategory.Animals));
+            sounds.Add(new Sound("Cow", SoundCategory.Animals));
+            sounds.Add(new Sound("Cat", SoundCategory.Animals));
 
-            sounds.Add(new Sound("Gun", Sound.SoundCategory.Cartoons));
-            sounds.Add(new Sound("Spring", Sound.SoundCategory.Cartoons));
+            sounds.Add(new Sound("Gun", SoundCategory.Cartoons));
+            sounds.Add(new Sound("Spring", SoundCategory.Cartoons));
 
-            sounds.Add(new Sound("Clock", Sound.SoundCategory.Taunts));
-            sounds.Add(new Sound("LOL", Sound.SoundCategory.Taunts));
+            sounds.Add(new Sound("Clock", SoundCategory.Taunts));
+            sounds.Add(new Sound("LOL", SoundCategory.Taunts));
 
-            sounds.Add(new Sound("Ship", Sound.SoundCategory.Warnings));
-            sounds.Add(new Sound("Siren", Sound.SoundCategory.Warnings));
+            sounds.Add(new Sound("Ship", SoundCategory.Warnings));
+            sounds.Add(new Sound("Siren", SoundCategory.Warnings));
 
             return sounds;
         }
 
+        
+        public static void GetAllSounds(ObservableCollection<Sound> sounds)
+        {            
+            var allSounds = getSounds();
+            sounds.Clear();
+            allSounds.ForEach(s => sounds.Add(s));
+        }
+
+        public static void GetSoundsByCategory(ObservableCollection<Sound> sounds, SoundCategory category)
+        {
+            var allSounds = getSounds();
+            var filteredSounds = allSounds.Where(s => s.Category == category).ToList();
+            sounds.Clear();
+            filteredSounds.ForEach(s => sounds.Add(s));
+        }
+       
     }
 }
